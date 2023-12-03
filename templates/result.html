@@ -1,0 +1,113 @@
+{% extends 'base.html' %}
+{% block body %}
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='result.css') }}" />
+    <h1>スクレイピング結果</h1>
+    <table id="table" class="table table-info table-striped table-bordered">
+        <thead>
+            <tr>
+                <th id="0" data-sort="">サイト</th>
+                <th id="1" data-sort="">商品名</th>
+                <th id="2" data-sort="">価格</th>
+                <th id="3" data-sort="">送料</th>
+                <th id="4" data-sort="">ポイント</th>
+                <th id="5" data-sort="">商品URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{list_amazon[0]}}</td><td>{{list_amazon[1]}}</td><td>{{list_amazon[2]}}</td><td>{{list_amazon[3]}}</td><td>{{list_amazon[4]}}</td><td><a href="{{list_amazon[5]}}">{{list_amazon[5]}}</a></td>
+            </tr>
+        </tbody>
+    </table>
+
+    
+    <div>
+        <p>
+        <form action="/">
+            <button class="button-022">トップページに戻る</button>
+        </form>
+        </p>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+    <script>
+        $(function(){
+
+            /**
+             * クリックイベント jQuery
+             */
+            $('th').click(function(){
+            // 情報取得
+            let ele = $(this).attr('id');
+            let sortFlg = $(this).data('sort');
+            
+            // リセット
+            $('th').data('sort', "");
+            
+            // ソート順序
+            if(sortFlg == "" || sortFlg == "desc"){
+                sortFlg = "asc";
+                $(this).data('sort', "asc");
+            }else{
+                sortFlg = "desc";
+                $(this).data('sort', "desc");
+            }
+            
+            // テーブルソート処理
+            sortTable(ele, sortFlg);
+            });
+            
+            /**
+             * テーブルソートメソッド javascript
+             * 
+             * @param ele 
+             * @param sortFlg 
+             */
+            function sortTable(ele, sortFlg){
+            let arr = $('table tbody tr').sort(function(a, b){
+                // ソート対象が数値の場合
+                if($.isNumeric($(a).find('td').eq(ele).text())){
+                let aNum = Number($(a).find('td').eq(ele).text());
+                let bNum = Number($(b).find('td').eq(ele).text());
+            
+                if(sortFlg == "asc"){
+                    return aNum - bNum;
+                }else{
+                    return bNum - aNum;
+                }
+                }else{ // ソート対象が数値でない場合
+                let sortNum = 1;
+            
+                // 比較時は小文字に統一
+                if($(a).find('td').eq(ele).text().toLowerCase() > $(b).find('td').eq(ele).text().toLowerCase()){
+                    sortNum = 1;
+                }else{
+                    sortNum = -1;
+                }
+                if(sortFlg == "desc"){
+                    sortNum *= (-1);
+                }
+            
+                return sortNum;
+                }
+            });
+            $('table tbody').html(arr);
+            }
+            
+            });
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha256-4+XzXVhsDmqanXGHaHvgh1gMQKX40OUvDEBTu8JcmNs=" crossorigin="anonymous"></script>
+
+    <style>
+        p{
+            padding:0;
+        }
+        body {
+            padding:10px;
+            display: block;
+            margin: 15px;
+            background-color:#f0e0dd;
+        }
+    </style>
+{% endblock %}
