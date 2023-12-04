@@ -5,13 +5,14 @@ import re
 #直接コードで呼び出さないためグレー表示
 import chromedriver_binary
 
-options=Options()
-#optionsの引数に加え、ヘッドレスモードに変え、ブラウザを立ち上げずに実行
-options.add_argument('--headless')                         
+options = Options()
+options.add_argument('--headless')
+options.add_argument('--disable-gpu')
+options.add_argument('--no-sandbox')
 options.add_argument('--disable-dev-shm-usage')
-options.add_argument('--no-sandbox') 
+options.add_argument('--remote-debugging-port=9222')
 driver = webdriver.Chrome(options=options)
-
+driver.set_window_size(950, 800)
 #暗黙的な待機
 driver.implicitly_wait(10)
 
