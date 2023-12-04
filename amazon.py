@@ -54,10 +54,12 @@ def amazon(word):
         list_amazon=["【Amazon】",product_name_amazon.text,"￥"+price_amazon.text,shipping_fee_amazon.contents[1].text,point_amazon[0],url_amazon]
 
         print("Amazon_スクレイピング完了")
-
-    except:
+        
+    except Exception as e:
         print("Amazon_スクレイピング失敗")
+        print(e)
+        import traceback
+        traceback.print_exc()
         list_amazon=["【Amazon】","-","-","-","-","-"]
 
     return list_amazon
-    
