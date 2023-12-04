@@ -8,7 +8,8 @@ import chromedriver_binary
 options=Options()
 #optionsの引数に加え、ヘッドレスモードに変え、ブラウザを立ち上げずに実行
 options.add_argument('--headless')                         
-
+options.add_argument('--disable-dev-shm-usage')
+options.add_argument('--no-sandbox') 
 driver = webdriver.Chrome(options=options)
 
 #暗黙的な待機
