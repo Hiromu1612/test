@@ -2,6 +2,7 @@ from selenium import webdriver
 import time
 from selenium.webdriver.chrome.options import Options
 import re
+import traceback
 #直接コードで呼び出さないためグレー表示
 import chromedriver_binary
 
@@ -54,13 +55,12 @@ def amazon(word):
 
         #リスト化、カンマを取り除いて見やすくする
         list_amazon=["【Amazon】",product_name_amazon.text,"￥"+price_amazon.text,shipping_fee_amazon.contents[1].text,point_amazon[0],url_amazon]
-
+        traceback.print_exc()
         print("Amazon_スクレイピング完了")
         
     except Exception as e:
         print("Amazon_スクレイピング失敗")
         print(e)
-        import traceback
         traceback.print_exc()
         list_amazon=["【Amazon】","-","-","-","-","-"]
 
